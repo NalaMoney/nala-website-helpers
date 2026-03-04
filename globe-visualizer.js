@@ -1,4 +1,5 @@
-import { Color, MeshLambertMaterial, DoubleSide } from 'three';
+import Globe from 'globe.gl';
+import { MeshLambertMaterial, DoubleSide } from 'three';
 
 const markerImgs = [
   "https://uploads-ssl.webflow.com/5f89ad61c0ef675e5948350e/667c21b9fd8862143cbefa36_marker_1.png",
