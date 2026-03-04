@@ -13,8 +13,11 @@ export class TwinklingStars {
       this.lastWidth = this.canvas.width;
       this.lastHeight = this.canvas.height;
 
+      this.isVisible = true;
+
       this.initializeCanvas();
       this.createStars();
+      this.observeVisibility();
       this.animate();
       this.attachEventHandlers();
   }
@@ -53,7 +56,16 @@ export class TwinklingStars {
       }
   }
 
+  observeVisibility() {
+      const observer = new IntersectionObserver(([entry]) => {
+          this.isVisible = entry.isIntersecting;
+          if (this.isVisible) this.animate();
+      });
+      observer.observe(this.container);
+  }
+
   animate() {
+      if (!this.isVisible) return;
       this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
       this.drawStars();
       this.updateStars();

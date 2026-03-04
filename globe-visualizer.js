@@ -1,4 +1,4 @@
-import * as THREE from '//unpkg.com/three/build/three.module.js';
+import { Color, MeshLambertMaterial, DoubleSide } from 'three';
 
 const markerImgs = [
   "https://uploads-ssl.webflow.com/5f89ad61c0ef675e5948350e/667c21b9fd8862143cbefa36_marker_1.png",
@@ -151,8 +151,6 @@ export class GlobeVisualizer {
   }
 
   createWorld() {
-    this.texture = new THREE.CanvasTexture(this.particleCanvas);
-
     this.world = Globe()
       .htmlElementsData(this.gData)
       .htmlElement(d => {
@@ -176,15 +174,15 @@ export class GlobeVisualizer {
 
     this.world.controls().enableZoom = false;
 
-    this.world.globeMaterial().emissive = new THREE.Color('#023C8B');
+    this.world.globeMaterial().emissive.set('#023C8B');
   }
 
   loadLandData() {
-    fetch('//unpkg.com/world-atlas/land-110m.json').then(res => res.json())
+    fetch('//unpkg.com/world-atlas@2.0.2/land-110m.json').then(res => res.json())
       .then(landTopo => {
         this.world
           .polygonsData(topojson.feature(landTopo, landTopo.objects.land).features)
-          .polygonCapMaterial(new THREE.MeshLambertMaterial({ color: '#0662B9', side: THREE.DoubleSide }))
+          .polygonCapMaterial(new MeshLambertMaterial({ color: '#0662B9', side: DoubleSide }))
           .polygonSideColor(() => '#023C8B')
           .polygonAltitude(0.008);
       });
