@@ -152,10 +152,6 @@ export class GlobeVisualizer {
   }
 
   createWorld() {
-    const container = document.getElementById(this.containerId);
-    container.style.opacity = '0';
-    container.style.transition = 'opacity 0.8s ease-in';
-
     this.world = Globe()
       .htmlElementsData(this.gData)
       .htmlElement(d => {
@@ -164,7 +160,7 @@ export class GlobeVisualizer {
         el.style.width = `${d.size}px`;
         return el;
       })
-      (container)
+      (document.getElementById(this.containerId))
       .pointOfView({ lat: -8, lng: 24, altitude: 2 })
       .backgroundColor('#023C8B00')
       .showGlobe(true)
@@ -187,7 +183,6 @@ export class GlobeVisualizer {
     requestAnimationFrame(() => {
       requestAnimationFrame(() => {
         this.world.arcsData(this.arcsData);
-        document.getElementById(this.containerId).style.opacity = '1';
       });
     });
   }
