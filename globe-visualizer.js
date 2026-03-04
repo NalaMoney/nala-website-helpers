@@ -35,7 +35,6 @@ export class GlobeVisualizer {
     this.addResetViewListener();
     window.addEventListener('resize', this.onWindowResize.bind(this));
     this.onWindowResize(); // Initial resize to set the correct size
-    this.deferArcs();
   }
 
   getRandomLatLng() {
@@ -165,6 +164,7 @@ export class GlobeVisualizer {
       .backgroundColor('#023C8B00')
       .showGlobe(true)
       .showAtmosphere(true)
+      .arcsData(this.arcsData)
       .arcColor('color')
       .arcStroke(0.3)
       .arcDashLength(1)
@@ -175,16 +175,6 @@ export class GlobeVisualizer {
     this.world.controls().enableZoom = false;
 
     this.world.globeMaterial().emissive.set('#023C8B');
-  }
-
-  deferArcs() {
-    // Wait for the globe to render its first frame before starting arc animations.
-    // This prevents the time-based animation from "catching up" after init jank.
-    requestAnimationFrame(() => {
-      requestAnimationFrame(() => {
-        this.world.arcsData(this.arcsData);
-      });
-    });
   }
 
   loadLandData() {
